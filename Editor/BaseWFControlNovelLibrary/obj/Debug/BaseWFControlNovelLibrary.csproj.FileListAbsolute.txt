@@ -1,0 +1,12 @@
+B:\OtherProjects\NovelSystemV2\Editor\BaseWFControlNovelLibrary\bin\Debug\BaseWFControlNovelLibrary.dll
+B:\OtherProjects\NovelSystemV2\Editor\BaseWFControlNovelLibrary\bin\Debug\BaseWFControlNovelLibrary.pdb
+B:\OtherProjects\NovelSystemV2\Editor\BaseWFControlNovelLibrary\bin\Debug\BaseNovelLibrary.dll
+B:\OtherProjects\NovelSystemV2\Editor\BaseWFControlNovelLibrary\bin\Debug\BaseNovelLibrary.pdb
+B:\OtherProjects\NovelSystemV2\Editor\BaseWFControlNovelLibrary\obj\Debug\BaseWFControlNovelLibrary.csprojAssemblyReference.cache
+B:\OtherProjects\NovelSystemV2\Editor\BaseWFControlNovelLibrary\obj\Debug\BaseWFControlNovelLibrary.FieldElement.resources
+B:\OtherProjects\NovelSystemV2\Editor\BaseWFControlNovelLibrary\obj\Debug\BaseWFControlNovelLibrary.csproj.GenerateResource.cache
+B:\OtherProjects\NovelSystemV2\Editor\BaseWFControlNovelLibrary\obj\Debug\BaseWFControlNovelLibrary.csproj.CoreCompileInputs.cache
+B:\OtherProjects\NovelSystemV2\Editor\BaseWFControlNovelLibrary\obj\Debug\BaseWFControlNovelLibrary.csproj.CopyComplete
+B:\OtherProjects\NovelSystemV2\Editor\BaseWFControlNovelLibrary\obj\Debug\BaseWFControlNovelLibrary.dll
+B:\OtherProjects\NovelSystemV2\Editor\BaseWFControlNovelLibrary\obj\Debug\BaseWFControlNovelLibrary.pdb
+B:\OtherProjects\NovelSystemV2\Editor\BaseWFControlNovelLibrary\obj\Debug\BaseWFControlNovelLibrary.Field.resources

@@ -1,0 +1,9 @@
+B:\OtherProjects\NovelSystemV2\Editor\Editor\bin\Debug\Editor.exe.config
+B:\OtherProjects\NovelSystemV2\Editor\Editor\bin\Debug\Editor.exe
+B:\OtherProjects\NovelSystemV2\Editor\Editor\bin\Debug\Editor.pdb
+B:\OtherProjects\NovelSystemV2\Editor\Editor\obj\Debug\Editor.csprojAssemblyReference.cache
+B:\OtherProjects\NovelSystemV2\Editor\Editor\obj\Debug\Editor.Properties.Resources.resources
+B:\OtherProjects\NovelSystemV2\Editor\Editor\obj\Debug\Editor.csproj.GenerateResource.cache
+B:\OtherProjects\NovelSystemV2\Editor\Editor\obj\Debug\Editor.csproj.CoreCompileInputs.cache
+B:\OtherProjects\NovelSystemV2\Editor\Editor\obj\Debug\Editor.exe
+B:\OtherProjects\NovelSystemV2\Editor\Editor\obj\Debug\Editor.pdb

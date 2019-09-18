@@ -1,0 +1,6 @@
+B:\OtherProjects\NovelSystemV2\Editor\BaseNovelLibrary\bin\Debug\BaseNovelLibrary.dll
+B:\OtherProjects\NovelSystemV2\Editor\BaseNovelLibrary\bin\Debug\BaseNovelLibrary.pdb
+B:\OtherProjects\NovelSystemV2\Editor\BaseNovelLibrary\obj\Debug\BaseNovelLibrary.csproj.CoreCompileInputs.cache
+B:\OtherProjects\NovelSystemV2\Editor\BaseNovelLibrary\obj\Debug\BaseNovelLibrary.dll
+B:\OtherProjects\NovelSystemV2\Editor\BaseNovelLibrary\obj\Debug\BaseNovelLibrary.pdb
+B:\OtherProjects\NovelSystemV2\Editor\BaseNovelLibrary\obj\Debug\BaseNovelLibrary.csprojAssemblyReference.cache
