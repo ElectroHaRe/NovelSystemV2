@@ -157,6 +157,35 @@ namespace BaseWFControlNovelLibrary
             (tree.Root as FieldElement).rootMarker = true;
         }
 
+        private void StartDrag()
+        {
+            if (tree.Count == 0)
+                return;
+            Control[] controls;
+            if (focus == null)
+            {
+                INode[] nodes = tree.GetAllNodes();
+                controls = new Control[tree.Count];
+                Parallel.For(0, nodes.Length, i => controls[i] = nodes[i] as Control);
+            }
+            else controls = new Control[1] { focus as Control };
+            ControlDragger.OnDrag += DragHandler;
+            ControlDragger.OnStartDrag += OnStartDrag;
+            ControlDragger.OnStopDrag += OnStopDrag;
+            ControlDragger.StartDrag(controls);
+        }
+
+        private void ChangeFocus(FieldElement item)
+        {
+            if (item == null)
+            {
+                Focus = null;
+                return;
+            }
+            tree.GoToNode(item);
+            Focus = tree.CurrentNode as FieldElement;
+        }
+
         #region Handlers
         private void MouseClickHandler(object sender, MouseEventArgs e)
         {
@@ -164,22 +193,15 @@ namespace BaseWFControlNovelLibrary
             {
                 fieldMenu.Show(MousePosition);
             }
-            Focus = null;
+            ChangeFocus(null);
         }
         private void MouseDownHandler(object sender, MouseEventArgs e)
         {
+
+            ChangeFocus(null);
             if (e.Button == MouseButtons.Left)
             {
-                Focus = null;
-                if (tree.Count == 0)
-                    return;
-                INode[] nodes = tree.GetAllNodes();
-                Control[] controls = new Control[tree.Count];
-                Parallel.For(0, nodes.Length, i => controls[i] = nodes[i] as Control);
-                ControlDragger.OnDrag += DragHandler;
-                ControlDragger.OnStartDrag += OnStartDrag;
-                ControlDragger.OnStopDrag += OnStopDrag;
-                ControlDragger.StartDrag(controls);
+                StartDrag();
             }
         }
         private void MouseWheelHandler(object sender, MouseEventArgs e)
@@ -198,17 +220,12 @@ namespace BaseWFControlNovelLibrary
 
         private void ElementMouseDownHandler(object sender, MouseEventArgs e)
         {
-            INode temp = sender as INode;
-            tree.GoToNode(temp);
-            Focus = tree.CurrentNode as FieldElement;
+            ChangeFocus(sender as FieldElement);
             if (e.Button == MouseButtons.Right)
                 elementMenu.Show(MousePosition);
             else if (e.Button == MouseButtons.Left)
             {
-                ControlDragger.OnDrag += DragHandler;
-                ControlDragger.OnStartDrag += OnStartDrag;
-                ControlDragger.OnStopDrag += OnStopDrag;
-                ControlDragger.StartDrag(Focus);
+                StartDrag();
             }
         }
         private void ElementMouseUpHandler(object sender, MouseEventArgs e)

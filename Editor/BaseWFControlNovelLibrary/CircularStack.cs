@@ -2,7 +2,6 @@
 {
     class CircularStack<T>
     {
-        public CircularStack() { items = new T[Capacity]; }
         public CircularStack(int capacity) { items = new T[capacity]; }
 
         private int Capacity => items.Length;
