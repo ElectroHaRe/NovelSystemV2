@@ -189,15 +189,14 @@ namespace BaseWFControlNovelLibrary
         #region Handlers
         private void MouseClickHandler(object sender, MouseEventArgs e)
         {
+            ChangeFocus(null);
             if (e.Button == MouseButtons.Right)
             {
                 fieldMenu.Show(MousePosition);
             }
-            ChangeFocus(null);
         }
         private void MouseDownHandler(object sender, MouseEventArgs e)
         {
-
             ChangeFocus(null);
             if (e.Button == MouseButtons.Left)
             {
