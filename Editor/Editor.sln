@@ -5,11 +5,11 @@ VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Editor", "Editor\Editor.csproj", "{964FC69C-D65F-4B18-B2C0-5ABA6D0A3A0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseNovelLibrary", "BaseNovelLibrary\BaseNovelLibrary.csproj", "{A1475814-19FD-4AF7-AE8F-E5EDDC27119D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFControlLibrary", "WFControlLibrary\WFControlLibrary.csproj", "{1876B514-65C5-4604-B0E4-786B525B4210}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseWFControlNovelLibrary", "BaseWFControlNovelLibrary\BaseWFControlNovelLibrary.csproj", "{1876B514-65C5-4604-B0E4-786B525B4210}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFControlLibraryModuleTests", "WFControlLibraryModulTests\WFControlLibraryModuleTests.csproj", "{E33DC023-7C92-4294-8D69-725441DB9503}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseWFControlNovelLibraryModulTests", "BaseWFControlNovelLibraryModulTests\BaseWFControlNovelLibraryModulTests.csproj", "{E33DC023-7C92-4294-8D69-725441DB9503}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "Library\Library.csproj", "{A1475814-19FD-4AF7-AE8F-E5EDDC27119D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		{964FC69C-D65F-4B18-B2C0-5ABA6D0A3A0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{964FC69C-D65F-4B18-B2C0-5ABA6D0A3A0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{964FC69C-D65F-4B18-B2C0-5ABA6D0A3A0C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A1475814-19FD-4AF7-AE8F-E5EDDC27119D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A1475814-19FD-4AF7-AE8F-E5EDDC27119D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1475814-19FD-4AF7-AE8F-E5EDDC27119D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A1475814-19FD-4AF7-AE8F-E5EDDC27119D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1876B514-65C5-4604-B0E4-786B525B4210}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1876B514-65C5-4604-B0E4-786B525B4210}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1876B514-65C5-4604-B0E4-786B525B4210}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{E33DC023-7C92-4294-8D69-725441DB9503}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E33DC023-7C92-4294-8D69-725441DB9503}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E33DC023-7C92-4294-8D69-725441DB9503}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1475814-19FD-4AF7-AE8F-E5EDDC27119D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1475814-19FD-4AF7-AE8F-E5EDDC27119D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1475814-19FD-4AF7-AE8F-E5EDDC27119D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1475814-19FD-4AF7-AE8F-E5EDDC27119D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
