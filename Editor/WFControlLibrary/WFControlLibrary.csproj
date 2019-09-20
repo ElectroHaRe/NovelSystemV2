@@ -44,40 +44,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionStory.cs" />
-    <Compile Include="Arrow.cs" />
-    <Compile Include="CircularStack.cs" />
-    <Compile Include="ControlDragger.cs" />
-    <Compile Include="Field.cs">
+    <Compile Include="Extensions\ControlExtension.cs" />
+    <Compile Include="Other\ActionStory.cs" />
+    <Compile Include="Other\Arrow.cs" />
+    <Compile Include="Other\CircularStack.cs" />
+    <Compile Include="Other\ControlDragger.cs" />
+    <Compile Include="WFControls\Field.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Field.Designer.cs">
+    <Compile Include="WFControls\Field.Designer.cs">
       <DependentUpon>Field.cs</DependentUpon>
     </Compile>
-    <Compile Include="FieldElement.cs">
+    <Compile Include="WFControls\FieldElement.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FieldElement.Designer.cs">
+    <Compile Include="WFControls\FieldElement.Designer.cs">
       <DependentUpon>FieldElement.cs</DependentUpon>
     </Compile>
-    <Compile Include="GraphicsWorker.cs" />
-    <Compile Include="IFieldElement.cs" />
-    <Compile Include="IMenuModule.cs" />
-    <Compile Include="Map.cs">
+    <Compile Include="Extensions\GraphicsExtension.cs" />
+    <Compile Include="Interfaces\IFieldElement.cs" />
+    <Compile Include="Interfaces\IMenuModule.cs" />
+    <Compile Include="WFControls\Map.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Map.Designer.cs">
+    <Compile Include="WFControls\Map.Designer.cs">
       <DependentUpon>Map.cs</DependentUpon>
     </Compile>
-    <Compile Include="PointWorker.cs" />
+    <Compile Include="Extensions\PointExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Field.resx">
+    <EmbeddedResource Include="WFControls\Field.resx">
       <DependentUpon>Field.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FieldElement.resx">
+    <EmbeddedResource Include="WFControls\FieldElement.resx">
       <DependentUpon>FieldElement.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

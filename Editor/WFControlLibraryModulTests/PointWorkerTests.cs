@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static WFControlLibrary.PointWorker;
+using static WFControlLibrary.PointExtension;
 
 namespace BaseWFControlNovelLibraryModulTests
 {

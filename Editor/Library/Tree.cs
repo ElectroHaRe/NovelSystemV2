@@ -7,9 +7,9 @@ namespace Library
     [Serializable]
     public class Tree
     {
-        public class Walker
+        public class Iterator
         {
-            public Walker(Tree tree)
+            public Iterator(Tree tree)
             {
                 this.tree = tree;
             }
@@ -32,7 +32,7 @@ namespace Library
         ArgumentException SceneAlreadyExists = new ArgumentException("Scene already exists");
         ArgumentException SceneDoesNotExist = new ArgumentException("Scene does not exist");
 
-        public Tree() { SceneWalker = new Walker(this); }
+        public Tree() { iterator = new Iterator(this); }
         public Tree(IScene root) : this()
         {
             nodes.Add(new Node(root));
@@ -49,7 +49,9 @@ namespace Library
 
         public int Count => nodes.Count;
 
-        public Walker SceneWalker;
+        private Iterator iterator;
+
+        public Iterator GetIterator() => iterator;
 
         private Node GetNodeOf(IScene scene)
         {

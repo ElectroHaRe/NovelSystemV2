@@ -2,7 +2,7 @@
 
 namespace WFControlLibrary
 {
-    public static class GraphicsWorker
+    public static class GraphicsExtension
     {
         public static void DrawArrowCap(this Graphics g, Pen pen,Point destination, Point guideVector,  int length, int width, bool closedLine = false)
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
-using static WFControlLibrary.PointWorker;
+using System.Windows.Forms;
+using static WFControlLibrary.PointExtension;
 
 namespace WFControlLibrary
 {
@@ -50,16 +51,15 @@ namespace WFControlLibrary
             }
         }
 
-        internal void Draw(Graphics g, FieldElement from, FieldElement to, float capScaleFactor = 1)
+        internal void Draw(Graphics g, Rectangle from, Rectangle to, float capScaleFactor = 1)
         {
             var first_point = from.Location.Add(((Point)to.Size).Multiply(0.5f));
             var second_point = to.Location.Add(((Point)to.Size).Multiply(0.5f));
-            var second_rect = new Rectangle(to.Left, to.Top, to.Width, to.Height);
             var first_to_second_vector = second_point.Sub(first_point);
 
             Point line_point, guideVector;
 
-            GetLineParamsOf(second_rect, first_point.WhereIAm(second_rect), out line_point, out guideVector);
+            GetLineParamsOf(to, first_point.WhereIAm(to), out line_point, out guideVector);
 
             var intersection_point = GetIntersectionPoint(first_point, first_to_second_vector, line_point, guideVector);
 

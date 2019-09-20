@@ -3,10 +3,14 @@ using System.Drawing;
 
 namespace WFControlLibrary
 {
-    public static class PointWorker
+    public static class PointExtension
     {
         public enum Side { Up, Down, Left, Right, Nowhere }
 
+        public static float Length(this Point point)
+        {
+            return (float)Math.Sqrt(point.X * point.X + point.Y * point.Y);
+        }
         public static Point Add(this Point point, Point p)
         {
             return new Point(point.X + p.X, point.Y + p.Y);
