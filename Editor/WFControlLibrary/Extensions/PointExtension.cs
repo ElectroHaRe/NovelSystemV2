@@ -7,9 +7,9 @@ namespace WFControlLibrary
     {
         public enum Side { Up, Down, Left, Right, Nowhere }
 
-        public static float Length(this Point point)
+        public static double Length(this Point point)
         {
-            return (float)Math.Sqrt(point.X * point.X + point.Y * point.Y);
+            return Math.Sqrt(point.X * point.X + point.Y * point.Y);
         }
         public static Point Add(this Point point, Point p)
         {
@@ -19,11 +19,11 @@ namespace WFControlLibrary
         {
             return new Point(point.X - p.X, point.Y - p.Y);
         }
-        public static Point Multiply(this Point point, float factor)
+        public static Point Multiply(this Point point, double factor)
         {
             return new Point((int)(point.X * factor), (int)(point.Y * factor));
         }
-        public static Point Multiply(this Point point, float xFactor,float yFactor)
+        public static Point Multiply(this Point point, double xFactor,double yFactor)
         {
             return new Point((int)(point.X * xFactor), (int)(point.Y * yFactor));
         }
@@ -60,17 +60,21 @@ namespace WFControlLibrary
         {
             return new PointF(point.X - p.X, point.Y - p.Y);
         }
-        public static PointF Multiply(this PointF point, float factor)
+        public static PointF Multiply(this PointF point, double factor)
         {
-            return new PointF(point.X * factor, point.Y * factor);
+            return new PointF((float)(point.X * factor), (float)(point.Y * factor));
         }
-        public static PointF Multiply(this PointF point, float xFactor, float yFactor)
+        public static PointF Multiply(this PointF point, double xFactor, double yFactor)
         {
-            return new PointF(point.X * xFactor, point.Y * yFactor);
+            return new PointF((float)(point.X * xFactor), (float)(point.Y * yFactor));
         }
         public static PointF Perpendicular(this PointF point)
         {
             return new PointF(point.Y, -point.X);
+        }
+        public static double Length(this PointF point)
+        {
+            return Math.Sqrt(point.X * point.X + point.Y * point.Y);
         }
         public static Point ToPoint(this PointF point)
         {
@@ -88,6 +92,17 @@ namespace WFControlLibrary
             float c = (float)Math.Sqrt(Math.Pow(point.X, 2) + Math.Pow(point.Y, 2));
             float x = point.X / c; float y = point.Y / c;
             return new PointF(x, y);
+        }
+
+        public static PointF ChangeLength(this PointF point, double newLength)
+        {
+            var normal = point.Normalize();
+            return normal.Multiply(newLength);
+        }
+        public static Point ChangeLength(this Point point, double newLength)
+        {
+            var normal = point.Normalize();
+            return normal.Multiply(newLength).ToPoint();
         }
 
         public static Point GetIntersectionPoint(Point p1, Point guideVector1, Point p2, Point guideVector2)

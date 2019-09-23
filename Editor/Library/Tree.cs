@@ -7,181 +7,131 @@ namespace Library
     [Serializable]
     public class Tree
     {
-        public class Iterator
+        public Tree() { }
+        public Tree(IScene root)
         {
-            public Iterator(Tree tree)
-            {
-                this.tree = tree;
-            }
-
-            private Tree tree;
-
-            public IScene GoNext(string text)
-            {
-                tree.position = tree.position?.Next(text);
-                return tree.CurrentScene;
-            }
-
-            public IScene GoPrevious()
-            {
-                tree.position = tree.position?.Previous;
-                return tree.CurrentScene;
-            }
+            nodes.Add(new LinkedNode(root));
+            root.isRoot = false;
         }
 
-        ArgumentException SceneAlreadyExists = new ArgumentException("Scene already exists");
-        ArgumentException SceneDoesNotExist = new ArgumentException("Scene does not exist");
-
-        public Tree() { iterator = new Iterator(this); }
-        public Tree(IScene root) : this()
+        public IScene Root
         {
-            nodes.Add(new Node(root));
-            position = nodes[0];
+            get
+            {
+                if (nodes.Count == 0)
+                    return null;
+                return nodes[0].Scene;
+            }
         }
-
-        public IScene this[int index] => GetAllScenes()[index];
-
-        private Node position;
-        private List<Node> nodes = new List<Node>();
-
-        public IScene Root => nodes.Count > 0 ? nodes[0].Scene : null;
-        public IScene CurrentScene => position?.Scene;
+        private List<LinkedNode> nodes = new List<LinkedNode>();
 
         public int Count => nodes.Count;
 
-        private Iterator iterator;
-
-        public Iterator GetIterator() => iterator;
-
-        private Node GetNodeOf(IScene scene)
+        internal LinkedNode GetNodeOf(IScene scene)
         {
-            return nodes.Find((node) => node.Scene == scene);
+            if (scene == null)
+                throw new ArgumentNullException("scene");
+
+            var node = nodes.Find((item) => item.Scene == scene);
+
+            if (node == null)
+                throw new Exception("Scene not fount");
+
+            return node;
         }
 
-        public void AddScene(IScene scene)
+        public bool Add(IScene scene)
         {
-            if (GetNodeOf(scene) != null)
-                throw SceneAlreadyExists;
             if (scene == null)
                 throw new ArgumentNullException();
 
-            nodes.Add(new Node(scene));
+            try
+            {
+                GetNodeOf(scene);
+            }
+            catch
+            {
+                nodes.Add(new LinkedNode(scene));
+                if (nodes.Count > 1)
+                    scene.isRoot = false;
+                else scene.isRoot = true;
+                return true;
+            }
 
-            if (nodes.Count == 1)
-                position = nodes[0];
+            return false;
         }
-        public void AddLink(IScene from, string text, IScene to)
+        public bool Remove(IScene scene)
         {
-            if (from == null || to == null)
-                throw new ArgumentNullException();
+            var node = GetNodeOf(scene);
 
-            var node = GetNodeOf(from);
+            foreach (var item in nodes)
+            {
+                item.RemoveLink(scene);
+            }
 
-            if (node == null)
-                throw SceneDoesNotExist;
+            if (nodes.Remove(node))
+            {
+                if (nodes.Count > 0 && nodes[0].Scene.isRoot == false)
+                    nodes[0].Scene.isRoot = true;
+                return true;
+            }
 
-            var destination = nodes.Find((item) => item.Scene == to) ?? new Node(to);
-
-            node.AddLink(text, destination);
+            return false;
         }
-
-        public void ChangeRoot(IScene root)
+        public void SetRoot(IScene scene)
         {
-            if (root == null)
-                throw new ArgumentNullException();
+            var node = GetNodeOf(scene);
 
-            Node node = GetNodeOf(root);
-
-            if (node == null)
-                throw SceneDoesNotExist;
+            nodes[0].Scene.isRoot = false;
 
             nodes[nodes.IndexOf(node)] = nodes[0];
             nodes[0] = node;
+
+            nodes[0].Scene.isRoot = true;
         }
 
         public IScene[] GetAllScenes()
         {
-            var result = from node in nodes
+            var scenes = from node in nodes
                          select node.Scene;
+            return scenes.ToArray();
+        }
+
+        public bool AddLink(IScene from, string text, IScene to)
+        {
+            if (text == null)
+                throw new ArgumentNullException("text");
+
+            var source = GetNodeOf(from);
+            var destination = GetNodeOf(to);
+
+            return source.AddLink(text, destination);
+        }
+        public bool RemoveLink(IScene from, IScene to)
+        {
+            if (to == null)
+                throw new ArgumentNullException("to");
+
+            var source = GetNodeOf(from);
+
+            return source.RemoveLink(to);
+        }
+        public bool RemoveLink(IScene from, string text)
+        {
+            var node = GetNodeOf(from);
+
+            return node.RemoveLink(text);
+        }
+        public IScene[] GetAllLinks(IScene scene)
+        {
+            var result = from link in GetNodeOf(scene).Links
+                         select link.Value.Scene;
             return result.ToArray();
         }
-        public IScene[] GetAllLinkedScenesFor(IScene scene)
+
+        public Script GetScript()
         {
-            if (scene == null)
-                throw new ArgumentNullException();
-
-            var node = GetNodeOf(scene);
-            var result = from item in node.Links
-                         select item.Value.Scene;
-            return result.ToArray();
-        }
-        public string[] GetAllLinkedTextsFor(IScene scene)
-        {
-            if (scene == null)
-                throw new ArgumentNullException();
-
-            return GetNodeOf(scene)?.GetLinkedTexts();
-        }
-        public IScene[] GetScenesBy(string text)
-        {
-            var result = from item in nodes
-                         where item.Scene.Text.Contains(text)
-                         select item.Scene;
-
-            return result.ToArray();
-        }
-
-        public void SetCurrent(IScene scene)
-        {
-            if (scene == null)
-                throw new ArgumentNullException();
-
-            position = GetNodeOf(scene);
-
-            if (position == null)
-                throw SceneDoesNotExist;
-        }
-        public void Remove(IScene scene)
-        {
-            if (scene == null)
-                throw new ArgumentNullException();
-
-            var nodeOfScene = GetNodeOf(scene);
-
-            if (nodeOfScene == null)
-                throw SceneDoesNotExist;
-
-            foreach (var node in nodes)
-            {
-                node.RemoveLink(scene);
-            }
-
-            nodes.Remove(nodeOfScene);
-        }
-        public void RemoveLink(IScene sourceScene, IScene linkedScene)
-        {
-            if (sourceScene == null || linkedScene == null)
-                throw new ArgumentNullException();
-
-            var from = GetNodeOf(sourceScene);
-            var to = GetNodeOf(linkedScene);
-
-            if (from == null || to == null)
-                throw SceneDoesNotExist;
-
-            from.RemoveLink(to.Scene);
-        }
-        public void RemoveLink(IScene sourceScene, string linkedText)
-        {
-            if (sourceScene == null)
-                throw new ArgumentNullException();
-
-            var node = GetNodeOf(sourceScene);
-
-            if (node == null)
-                throw SceneDoesNotExist;
-
-            node.RemoveLink(linkedText);
+            return new Script(this);
         }
     }
 }

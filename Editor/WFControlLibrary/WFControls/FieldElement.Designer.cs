@@ -1,6 +1,7 @@
 ﻿namespace WFControlLibrary
 {
     using System;
+    using Library;
     using System.Drawing;
     using System.Windows.Forms;
 
@@ -49,8 +50,8 @@
             this.noImageLabel.Size = new Size(53, 13);
             this.noImageLabel.TabIndex = 2;
             this.noImageLabel.Text = "No Image";
-            this.noImageLabel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LabelsMouseDown);
-            this.noImageLabel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LabelsMouseUp);
+            this.noImageLabel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LabelMouseDown);
+            this.noImageLabel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LabelMouseUp);
             // 
             // rootLabel
             // 
@@ -60,8 +61,8 @@
             this.rootLabel.Size = new Size(32, 17);
             this.rootLabel.TabIndex = 3;
             this.rootLabel.Text = "Root";
-            this.rootLabel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LabelsMouseDown);
-            this.rootLabel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LabelsMouseUp);
+            this.rootLabel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LabelMouseDown);
+            this.rootLabel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LabelMouseUp);
             // 
             // FieldElement
             // 
@@ -75,7 +76,7 @@
             this.DoubleBuffered = true;
             this.Name = "FieldElement";
             this.Size = new Size(250, 160);
-            this.SizeChanged += new System.EventHandler(this.SizeChangedHandler);
+            this.SizeChanged += new System.EventHandler(this.OnSizeChanged);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -91,9 +92,8 @@
         private PictureBox pictureBox;
         private TextBox textBox;
 
-        private const int max_label_width = 53;
-        public const int max_label_height = 13;
-
+        private const int masLabelWidth = 53;
+        public const int maxLabelHeight = 13;
 
         public new event EventHandler TextChanged
         {
@@ -101,9 +101,9 @@
             remove { textBox.TextChanged -= value; }
         }
         /// <summary>
-        /// sender - PictureBox
+        /// sender - PictureBox, 1'Image - lastImage, 2'Image - currentImage
         /// </summary>
-        public event EventHandler ImageChanged;
+        public event Action<PictureBox, Image, Image> ImageChanged;
         public event MouseEventHandler ImageFieldMouseClick
         {
             add { pictureBox.MouseClick += value; }
@@ -122,8 +122,8 @@
             remove { pictureBox.MouseLeave -= value; }
         }
 
-        public new string Text { get => textBox.Text; set => (this as Library.IScene).ChangeText(value); }
-        public Image Image { get => pictureBox.Image; set => (this as Library.IScene).ChangeImage(value); }
+        public new string Text { get => textBox.Text; set => (this as IScene).Text = value; }
+        public Image Image { get => pictureBox.Image; set => (this as IScene).Image = value; }
 
         public bool rootMarker { get => rootLabel.Visible && rootLabel.Enabled; set => rootLabel.Visible = rootLabel.Enabled = value; }
 
@@ -144,16 +144,16 @@
         {
             MouseUp?.Invoke(this, e);
         }
-        private void LabelsMouseDown(object sender, MouseEventArgs e)
+        private void LabelMouseDown(object sender, MouseEventArgs e)
         {
             MouseDown?.Invoke(this, e);
         }
-        private void LabelsMouseUp(object sender, MouseEventArgs e)
+        private void LabelMouseUp(object sender, MouseEventArgs e)
         {
             MouseUp?.Invoke(this, e);
         }
 
-        private void SizeChangedHandler(object sender, EventArgs e)
+        private void OnSizeChanged(object sender, EventArgs e)
         {
             pictureBox.Width = Width; pictureBox.Height = Height / 2;
             textBox.Width = Width + 1; textBox.Height = Height - pictureBox.Height;
@@ -163,11 +163,11 @@
 
             rootLabel.Left = -1; rootLabel.Top = -1;
 
-            noImageLabel.Width = Width < max_label_width ? Width : max_label_width;
+            noImageLabel.Width = Width < masLabelWidth ? Width : masLabelWidth;
 
             if (Image == null)
             {
-                if (Height / 2 < max_label_height)
+                if (Height / 2 < maxLabelHeight)
                     noImageLabel.Enabled = noImageLabel.Visible = false;
                 else if (!noImageLabel.Enabled && !noImageLabel.Visible)
                     noImageLabel.Enabled = noImageLabel.Visible = true;

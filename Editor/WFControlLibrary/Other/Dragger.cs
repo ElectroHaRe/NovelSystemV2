@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Drawing;
+using System.Windows.Forms;
+using System.Collections.Generic;
 using static System.Windows.Forms.Control;
 
 namespace WFControlLibrary
@@ -10,13 +9,13 @@ namespace WFControlLibrary
     /// <summary>
     /// Все обработчики событий будут отписаны после вызова StopDrag()
     /// </summary>
-    internal static class ControlDragger
+    internal static class Dragger
     {
         public static event Action<Control[]> OnStartDrag;
         public static event Action<Control[]> OnDrag;
         public static event Action<Control[], Point> OnStopDrag;
 
-        static ControlDragger() { updater.Interval = interval; updater.Tick += Drag; }
+        static Dragger() { updater.Interval = interval; updater.Tick += Drag; }
 
         public static int fps = 1000 / interval;
 
@@ -26,7 +25,7 @@ namespace WFControlLibrary
         private static Timer updater = new Timer();
         private static int interval => 5;
 
-        private static Point startMousePos = new Point(0, 0);
+        private static Point startMousePos;
         private static Point translateVector => MousePosition.Sub(startMousePos);
 
         public static void StartDrag()
@@ -48,16 +47,16 @@ namespace WFControlLibrary
             }
             StartDrag();
         }
-
         private static void Drag(object sender, EventArgs e)
         {
+            if (translateVector.Length() == 0)
+                return;
             foreach (var item in TargetList)
             {
                 item.Location = targetStartPosList[item].Add(translateVector);
             }
             OnDrag?.Invoke(TargetList.ToArray());
         }
-
         public static void StopDrag()
         {
             OnStopDrag?.Invoke(TargetList.ToArray(), translateVector);

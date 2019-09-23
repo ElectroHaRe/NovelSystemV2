@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 namespace WFControlLibrary
 {
-    class ActionStory
+    class Reserve
     {
         public class Command
         {
@@ -32,33 +32,34 @@ namespace WFControlLibrary
             }
         }
 
-        public ActionStory(int capacity)
+        public Reserve(int capacity)
         {
             CommandList = new Dictionary<string, Command>(capacity);
             story = new CircularStack<KeyValuePair<string, object[]>>(capacity);
-            backupStory = new CircularStack<KeyValuePair<string, object[]>>(capacity);
+            backup = new CircularStack<KeyValuePair<string, object[]>>(capacity);
         }
 
         private Dictionary<string, Command> CommandList;
         private CircularStack<KeyValuePair<string, object[]>> story;
-        private CircularStack<KeyValuePair<string, object[]>> backupStory;
+        private CircularStack<KeyValuePair<string, object[]>> backup;
 
-        public ActionStory AddCommand(Command command)
+        public Reserve AddCommand(Command command)
         {
             CommandList.Add(command.Name, command);
             return this;
         }
-        public ActionStory AddCommand(string name, Action<object[]> undo, Action<object[]> redo)
+        public Reserve AddCommand(string name, Action<object[]> undo, Action<object[]> redo)
         {
             var temp = new Command(name, undo, redo);
             CommandList.Add(temp.Name, temp);
             return this;
         }
 
-        public ActionStory Store(string commandName,params object[] args)
+        public Reserve Store(string commandName, params object[] args)
         {
-            if (!backupStory.isEmpty)
-                backupStory.Clear();
+            if (backup.Count > 0)
+                backup.Clear();
+
             story.Push(new KeyValuePair<string, object[]>(commandName, args));
             return this;
         }
@@ -67,16 +68,18 @@ namespace WFControlLibrary
         {
             if (story.Count == 0)
                 return;
+
             var storyItem = story.Pop();
-            CommandList[storyItem.Key].Undo.Invoke(storyItem.Value);
-            backupStory.Push(storyItem);
+            CommandList[storyItem.Key].Undo(storyItem.Value);
+            backup.Push(storyItem);
         }
         public void Redo()
         {
-            if (backupStory.Count == 0)
+            if (backup.Count == 0)
                 return;
-            var storyItem = backupStory.Pop();
-            CommandList[storyItem.Key].Redo.Invoke(storyItem.Value);
+
+            var storyItem = backup.Pop();
+            CommandList[storyItem.Key].Undo(storyItem.Value);
             story.Push(storyItem);
         }
     }

@@ -4,10 +4,9 @@ namespace Library
 {
     public interface IScene
     {
-        Image Image { get; }
-        string Text { get; }
+        Image Image { get; set; }
+        string Text { get; set; }
 
-        void ChangeImage(Image @new);
-        void ChangeText(string @new);
+        bool isRoot { get; set; }
     }
 }

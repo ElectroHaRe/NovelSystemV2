@@ -1,22 +1,22 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using Library;
 using System.Drawing;
 using System.Windows.Forms;
-using Library;
+using System.Runtime.Serialization;
 
 namespace WFControlLibrary
 {
     [Serializable]
     public partial class FieldElement : UserControl, IFieldElement, ISerializable
     {
-        event Action<IFieldElement, Point, Point, float> _locationChanged;
+        private event Action<IFieldElement, Point, Point, float> _locationChanged;
         event Action<IFieldElement, Point, Point, float> IFieldElement.LocationChanged
         {
             add { _locationChanged += value; }
             remove { _locationChanged -= value; }
         }
 
-        event Action<IFieldElement, Size, Size, float> _sizeChanged;
+        private event Action<IFieldElement, Size, Size, float> _sizeChanged;
         event Action<IFieldElement, Size, Size, float> IFieldElement.SizeChanged
         {
             add { _sizeChanged += value; }
@@ -47,42 +47,46 @@ namespace WFControlLibrary
             Location = location;
         }
 
-        bool IFieldElement.RootMarker { get => rootMarker; set => rootMarker = value; }
+        Image IScene.Image
+        {
+            get => pictureBox.Image;
+            set
+            {
+                var lastImage = value;
+                pictureBox.Image = value;
+                noImageLabel.Enabled = noImageLabel.Visible = (value == null);
+                ImageChanged?.Invoke(pictureBox, lastImage, value);
+            }
+        }
+        string IScene.Text
+        {
+            get => textBox.Text;
+            set => textBox.Text = value;
+        }
 
-        Image IScene.Image => pictureBox.Image;
-        string IScene.Text => textBox.Text;
-
-        private Point _location = new Point();
+        private Point _location;
         Point IFieldElement.Location => _location;
 
-        private Size _size = new Size();
+        private Size _size;
         Size IFieldElement.Size => _size;
 
         Point IFieldElement.ScaledLocation => this.Location;
 
         Size IFieldElement.ScaledSize => this.Size;
 
-        bool IFieldElement.Focus { get; set; }
-        bool IFieldElement.Highlight { get; set; }
-
-        void IScene.ChangeImage(Image @new)
+        bool IScene.isRoot
         {
-            pictureBox.Image = @new;
-            if (@new == null)
-                noImageLabel.Enabled = noImageLabel.Visible = true;
-            else noImageLabel.Enabled = noImageLabel.Visible = false;
-            ImageChanged?.Invoke(pictureBox, new EventArgs());
+            get => rootLabel.Enabled == rootLabel.Visible == true;
+            set => rootLabel.Enabled = rootLabel.Visible = value;
         }
-        void IScene.ChangeText(string @new) => textBox.Text = @new;
 
-        void IFieldElement.ChangeLocation(Point location, float scale = 1)
+        void IFieldElement.ChangeLocation(PointF location, float scale = 1)
         {
-            var lastLocation = _location;
-            _location = location;
-            var l = location.Length();
-            var normal = location.Normalize();
-            this.Location = normal.Multiply(l*scale).ToPoint();
-            _locationChanged?.Invoke(this, lastLocation, _location, scale);
+            var lastLocation = (PointF)_location;
+            _location = location.ToPoint();
+            double length = location.Length() * scale;
+            this.Location = location.ChangeLength(length).ToPoint();
+            _locationChanged?.Invoke(this, lastLocation.ToPoint(), _location, scale);
         }
         void IFieldElement.ChangeSize(Size size, float scale)
         {
@@ -101,10 +105,11 @@ namespace WFControlLibrary
 
         protected FieldElement(SerializationInfo info, StreamingContext context) : this()
         {
-            (this as IScene).ChangeImage(info.GetValue("image", typeof(Image)) as Image);
-            (this as IScene).ChangeText(info.GetValue("text", typeof(string)) as string);
-            (this as IFieldElement).ChangeLocation((Point)info.GetValue("position", typeof(Point)));
-            (this as IFieldElement).ChangeSize((Size)info.GetValue("size", typeof(Size)));
+            var temp = this as IFieldElement;
+            temp.Image = (info.GetValue("image", typeof(Image)) as Image);
+            temp.Text = (info.GetValue("text", typeof(string)) as string);
+            temp.ChangeLocation((Point)info.GetValue("position", typeof(Point)));
+            temp.ChangeSize((Size)info.GetValue("size", typeof(Size)));
         }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)

@@ -4,7 +4,7 @@ namespace WFControlLibrary
 {
     public static class GraphicsExtension
     {
-        public static void DrawArrowCap(this Graphics g, Pen pen,Point destination, Point guideVector,  int length, int width, bool closedLine = false)
+        public static void DrawArrowCap(this Graphics g, Pen pen, Point destination, Point guideVector, int length, int width, bool closedLine = false)
         {
             var normal_guide_vector = guideVector.Normalize();
             var start_arrow_point = destination.Sub(normal_guide_vector.Multiply(length).ToPoint());

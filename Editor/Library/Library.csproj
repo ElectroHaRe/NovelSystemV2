@@ -7,8 +7,8 @@
     <ProjectGuid>{A1475814-19FD-4AF7-AE8F-E5EDDC27119D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BaseNovelLibrary</RootNamespace>
-    <AssemblyName>BaseNovelLibrary</AssemblyName>
+    <RootNamespace>Library</RootNamespace>
+    <AssemblyName>Library</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -43,7 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IScene.cs" />
-    <Compile Include="Node.cs" />
+    <Compile Include="LinkedNode.cs" />
+    <Compile Include="Script.cs" />
     <Compile Include="Tree.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

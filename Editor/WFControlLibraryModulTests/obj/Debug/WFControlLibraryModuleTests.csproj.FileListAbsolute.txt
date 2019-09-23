@@ -9,13 +9,13 @@ B:\OtherProjects\NovelSystemV2\Editor\WFControlLibraryModulTests\bin\Debug\BaseW
 B:\OtherProjects\NovelSystemV2\Editor\WFControlLibraryModulTests\bin\Debug\BaseWFControlNovelLibrary.dll
 B:\OtherProjects\NovelSystemV2\Editor\WFControlLibraryModulTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
 B:\OtherProjects\NovelSystemV2\Editor\WFControlLibraryModulTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
-B:\OtherProjects\NovelSystemV2\Editor\WFControlLibraryModulTests\bin\Debug\BaseNovelLibrary.dll
 B:\OtherProjects\NovelSystemV2\Editor\WFControlLibraryModulTests\bin\Debug\BaseWFControlNovelLibrary.pdb
 B:\OtherProjects\NovelSystemV2\Editor\WFControlLibraryModulTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
 B:\OtherProjects\NovelSystemV2\Editor\WFControlLibraryModulTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
-B:\OtherProjects\NovelSystemV2\Editor\WFControlLibraryModulTests\bin\Debug\BaseNovelLibrary.pdb
 B:\OtherProjects\NovelSystemV2\Editor\WFControlLibraryModulTests\obj\Debug\WFControlLibraryModuleTests.csprojAssemblyReference.cache
 B:\OtherProjects\NovelSystemV2\Editor\WFControlLibraryModulTests\obj\Debug\WFControlLibraryModuleTests.csproj.CoreCompileInputs.cache
 B:\OtherProjects\NovelSystemV2\Editor\WFControlLibraryModulTests\obj\Debug\WFControlLibraryModuleTests.csproj.CopyComplete
 B:\OtherProjects\NovelSystemV2\Editor\WFControlLibraryModulTests\obj\Debug\BaseWFControlNovelLibraryModulTests.dll
 B:\OtherProjects\NovelSystemV2\Editor\WFControlLibraryModulTests\obj\Debug\BaseWFControlNovelLibraryModulTests.pdb
+B:\OtherProjects\NovelSystemV2\Editor\WFControlLibraryModulTests\bin\Debug\Library.dll
+B:\OtherProjects\NovelSystemV2\Editor\WFControlLibraryModulTests\bin\Debug\Library.pdb
