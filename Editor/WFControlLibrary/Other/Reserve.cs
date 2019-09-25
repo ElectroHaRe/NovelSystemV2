@@ -81,7 +81,7 @@ namespace WFControlLibrary
                 return;
 
             var storyItem = backup.Pop();
-            CommandList[storyItem.Key].Undo(storyItem.Value);
+            CommandList[storyItem.Key].Redo(storyItem.Value);
             story.Push(storyItem);
         }
     }
