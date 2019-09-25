@@ -17,12 +17,8 @@ namespace Library
 
         internal bool AddLink(string text, Node node)
         {
-            if (text == null && node == null)
-                throw new ArgumentNullException("text & node");
-            else if (text == null)
-                throw new ArgumentNullException("text");
-            else if (node == null)
-                throw new ArgumentNullException("node");
+            if (text == null || node == null)
+                throw new ArgumentNullException();
 
             if (Links.ContainsKey(text))
                 return false;
@@ -54,7 +50,7 @@ namespace Library
         internal bool RemoveLink(string text)
         {
             if (text == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("text");
 
             return Links.Remove(text);
         }
