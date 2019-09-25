@@ -74,12 +74,6 @@ namespace WFControlLibrary
 
         Size IFieldElement.ScaledSize => this.Size;
 
-        bool IScene.isRoot
-        {
-            get => rootLabel.Enabled == rootLabel.Visible == true;
-            set => rootLabel.Enabled = rootLabel.Visible = value;
-        }
-
         void IFieldElement.ChangeLocation(PointF location, float scale = 1)
         {
             var lastLocation = (PointF)_location;

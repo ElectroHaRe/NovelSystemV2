@@ -5,17 +5,17 @@ using System.Collections.Generic;
 namespace Library
 {
     [Serializable]
-    internal class LinkedNode
+    internal class Node
     {
-        internal LinkedNode(IScene value)
+        internal Node(IScene value)
         {
             Scene = value;
         }
 
         internal IScene Scene { get; private set; }
-        internal Dictionary<string, LinkedNode> Links { get; private set; } = new Dictionary<string, LinkedNode>();
+        internal Dictionary<string, Node> Links { get; private set; } = new Dictionary<string, Node>();
 
-        internal bool AddLink(string text, LinkedNode node)
+        internal bool AddLink(string text, Node node)
         {
             if (text == null && node == null)
                 throw new ArgumentNullException("text & node");
@@ -60,7 +60,7 @@ namespace Library
         }
         internal void RemoveAllLinks()
         {
-            Links = new Dictionary<string, LinkedNode>();
+            Links = new Dictionary<string, Node>();
         }
         internal string[] GetLinkedTexts()
         {

@@ -15,6 +15,7 @@ namespace WFControlLibrary
             MouseWheel += OnMouseWheel;
             UpdateWorldParams();
             OnStopDrag += OnStopDragHandler;
+            ConfigureReserve();
         }
 
         private Tree tree = new Tree();
@@ -48,6 +49,48 @@ namespace WFControlLibrary
             }
         }
 
+        #region Undo_Redo
+        private CommandHistory history = new CommandHistory(200);
+        private enum Commands : byte
+        {
+            ElementCreated,
+            ElementRemoved,
+            RootChanged,
+            ElementLocationChanged,
+            ElementImageChanged
+        }
+        private void ConfigureReserve()
+        {
+            history
+                .AddCommand(Commands.ElementCreated.ToString(), (args) => RemoveElement(args[0] as IFieldElement), (args) => AddElement(args[0] as IFieldElement))
+                .AddCommand(Commands.ElementRemoved.ToString(), (args) => AddElement(args[0] as IFieldElement), (args) => RemoveElement(args[0] as IFieldElement))
+                .AddCommand(Commands.RootChanged.ToString(), (args) => SetRoot(args[0] as IFieldElement), (args) => SetRoot(args[1] as IFieldElement))
+                .AddCommand(Commands.ElementLocationChanged.ToString(), (args) =>
+                {
+                    foreach (var item in args[0] as Control[])
+                    {
+                        item.Location = item.Location.Sub((Point)args[1]);
+                    }
+                    Invalidate();
+                }, (args) =>
+                {
+                    foreach (var item in args[0] as Control[])
+                    {
+                        item.Location = item.Location.Add((Point)args[1]);
+                    }
+                    Invalidate();
+                })
+                .AddCommand(Commands.ElementImageChanged.ToString(), (args) => (args[0] as IScene).Image = (args[1] as Image),
+                (args) => (args[0] as IScene).Image = (args[2] as Image));
+
+            ElementCreated += (element) => history.Store(Commands.ElementCreated.ToString(), element);
+            ElementRemoved += (element) => history.Store(Commands.ElementRemoved.ToString(), element);
+            RootChanged += (lastRoot, currentRoot) => history.Store(Commands.RootChanged.ToString(), lastRoot, currentRoot);
+            OnStopDrag += (elements, translateVector) => history.Store(Commands.ElementLocationChanged.ToString(), elements, translateVector);
+            ElementImageChanged += (element, lastImage, currentImage) => history.Store(Commands.ElementImageChanged.ToString(), element, lastImage, currentImage);
+        }
+        #endregion
+
         private FieldOfTree CreateElement()
         {
             IFieldElement temp;
@@ -64,8 +107,8 @@ namespace WFControlLibrary
         }
         private FieldOfTree AddElement(IFieldElement item)
         {
-            if (tree.Count == 0)
-                item.isRoot = true;
+            if (tree.Count == 0 && item is FieldElement)
+                (item as FieldElement).rootMarker = true;
             Controls.Add(item as Control);
             tree.Add(item);
             Focus = item;
@@ -80,6 +123,9 @@ namespace WFControlLibrary
         {
             if (tree.Remove(item) == false)
                 return false;
+
+            if (tree.Count > 0 && Root is FieldElement)
+                (Root as FieldElement).rootMarker = true;
 
             Controls.Remove(item as Control);
 
@@ -106,9 +152,11 @@ namespace WFControlLibrary
         }
         private void SetRoot(IFieldElement item)
         {
-            Root.isRoot = false;
+            if (tree.Root is FieldElement)
+                (tree.Root as FieldElement).rootMarker = false;
             tree.SetRoot(item);
-            Root.isRoot = true;
+            if (tree.Root is FieldElement)
+                (tree.Root as FieldElement).rootMarker = true;
         }
         public IFieldElement[] GetElementsBy(string text)
         {
@@ -229,5 +277,14 @@ namespace WFControlLibrary
             HighlightElements = new List<IFieldElement>();
         }
 
+        private void UndoButton_Click(object sender, EventArgs e)
+        {
+            history.Undo();
+        }
+
+        private void RedoButton_Click(object sender, EventArgs e)
+        {
+            history.Redo();
+        }
     }
 }

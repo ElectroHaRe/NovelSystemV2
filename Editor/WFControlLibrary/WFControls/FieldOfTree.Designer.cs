@@ -41,6 +41,8 @@
             this.makeRootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDialog = new System.Windows.Forms.OpenFileDialog();
+            this.undoButton = new System.Windows.Forms.Button();
+            this.redoButton = new System.Windows.Forms.Button();
             this.fieldMenu.SuspendLayout();
             this.elementMenu.SuspendLayout();
             this.SuspendLayout();
@@ -93,11 +95,33 @@
             // 
             this.openDialog.FileName = "Image";
             // 
+            // undoButton
+            // 
+            this.undoButton.Location = new System.Drawing.Point(3, 3);
+            this.undoButton.Name = "undoButton";
+            this.undoButton.Size = new System.Drawing.Size(75, 23);
+            this.undoButton.TabIndex = 2;
+            this.undoButton.Text = "Undo";
+            this.undoButton.UseVisualStyleBackColor = true;
+            this.undoButton.Click += new System.EventHandler(this.UndoButton_Click);
+            // 
+            // redoButton
+            // 
+            this.redoButton.Location = new System.Drawing.Point(722, 3);
+            this.redoButton.Name = "redoButton";
+            this.redoButton.Size = new System.Drawing.Size(75, 23);
+            this.redoButton.TabIndex = 3;
+            this.redoButton.Text = "Redo";
+            this.redoButton.UseVisualStyleBackColor = true;
+            this.redoButton.Click += new System.EventHandler(this.RedoButton_Click);
+            // 
             // FieldOfTree
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
+            this.Controls.Add(this.redoButton);
+            this.Controls.Add(this.undoButton);
             this.Name = "FieldOfTree";
             this.Size = new System.Drawing.Size(800, 600);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.OnFieldRepaint);
@@ -298,5 +322,7 @@
             }
         }
 
+        private Button undoButton;
+        private Button redoButton;
     }
 }

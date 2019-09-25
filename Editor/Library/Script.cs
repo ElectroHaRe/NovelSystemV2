@@ -11,15 +11,15 @@ namespace Library
                 throw new ArgumentException("Tree is empty");
 
             this.tree = tree;
-            Story = new CircularStack<IScene>(tree.Count);
+            history = new CircularStack<IScene>(tree.Count);
 
             position = tree.GetNodeOf(tree.Root);
         }
 
         private Tree tree;
-        private CircularStack<IScene> Story;
+        private CircularStack<IScene> history;
 
-        private LinkedNode position;
+        private Node position;
         public IScene Current => position.Scene;
 
         public bool GoNext(string text)
@@ -27,11 +27,11 @@ namespace Library
             if (text == null)
                 throw new ArgumentNullException("text");
 
-            LinkedNode pos;
+            Node pos;
 
             if (position.Links.TryGetValue(text, out pos))
             {
-                Story.Push(Current);
+                history.Push(Current);
                 position = pos;
 
                 return true;
@@ -41,18 +41,17 @@ namespace Library
 
         public bool GoPrevious()
         {
-            if (Story.Count == 0)
+            if (history.Count == 0)
                 return false;
 
-            position = tree.GetNodeOf(Story.Pop());
+            position = tree.GetNodeOf(history.Pop());
             return true;
         }
 
-        public List<IScene> GetStory()
+        public List<IScene> GetHistory()
         {
-            var list = new List<IScene>();
+            var list = new List<IScene>(history.ToArray());
 
-            list.AddRange(Story.ToArray());
             list.Add(Current);
 
             return list;
@@ -60,7 +59,7 @@ namespace Library
 
         public void GoTo(IScene scene)
         {
-            Story.Push(Current);
+            history.Push(Current);
             position = tree.GetNodeOf(scene);
         }
 

@@ -1,11 +1,13 @@
-﻿namespace Library
+﻿using System;
+
+namespace Library
 {
     public class CircularStack<T>
     {
         public CircularStack(int capacity) { items = new T[capacity]; }
 
         public int Capacity => items.Length;
-        public int Count { get; private set; } = 0;
+        public int Count { get; private set; }
 
         public bool isEmpty => Count == 0;
         public bool isFull => Count == Capacity;
@@ -21,7 +23,10 @@
             tail = (tail + 1) % Capacity;
             if (head == tail)
                 head = (head + 1) % Capacity;
-            Count++;
+
+            if (Count < Capacity)
+                Count++;
+
             return this;
         }
         public T Peek()
@@ -31,11 +36,16 @@
         public T Pop()
         {
             if (head == tail)
-                return items[tail];
+                throw new InvalidOperationException("Array is empty");
+
             tail = (tail - 1 + Capacity) % Capacity;
             var temp = items[tail];
+
+            Count--;
+
             if (head == tail)
                 this.Clear();
+
             return temp;
         }
 
@@ -50,6 +60,7 @@
 
             return array;
         }
+
         public void Clear()
         {
             head = tail = Count = 0;

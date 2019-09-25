@@ -6,7 +6,5 @@ namespace Library
     {
         Image Image { get; set; }
         string Text { get; set; }
-
-        bool isRoot { get; set; }
     }
 }

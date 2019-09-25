@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\ControlExtension.cs" />
-    <Compile Include="Other\Reserve.cs" />
+    <Compile Include="Other\CommandHistory.cs" />
     <Compile Include="Other\Arrow.cs" />
     <Compile Include="Other\Dragger.cs" />
     <Compile Include="WFControls\FieldOfTree.cs">

@@ -10,8 +10,7 @@ namespace Library
         public Tree() { }
         public Tree(IScene root)
         {
-            nodes.Add(new LinkedNode(root));
-            root.isRoot = false;
+            nodes.Add(new Node(root));
         }
 
         public IScene Root
@@ -23,11 +22,11 @@ namespace Library
                 return nodes[0].Scene;
             }
         }
-        private List<LinkedNode> nodes = new List<LinkedNode>();
+        private List<Node> nodes = new List<Node>();
 
         public int Count => nodes.Count;
 
-        internal LinkedNode GetNodeOf(IScene scene)
+        internal Node GetNodeOf(IScene scene)
         {
             if (scene == null)
                 throw new ArgumentNullException("scene");
@@ -40,25 +39,26 @@ namespace Library
             return node;
         }
 
+        internal bool Contains(IScene scene)
+        {
+            if (scene == null)
+                throw new ArgumentNullException("scene");
+
+            if (nodes.Find((item) => item.Scene == scene) != null)
+                return true;
+            else return false;
+        }
+
         public bool Add(IScene scene)
         {
             if (scene == null)
                 throw new ArgumentNullException();
 
-            try
-            {
-                GetNodeOf(scene);
-            }
-            catch
-            {
-                nodes.Add(new LinkedNode(scene));
-                if (nodes.Count > 1)
-                    scene.isRoot = false;
-                else scene.isRoot = true;
-                return true;
-            }
+            if (Contains(scene))
+                return false;
 
-            return false;
+            nodes.Add(new Node(scene));
+            return true;
         }
         public bool Remove(IScene scene)
         {
@@ -71,37 +71,28 @@ namespace Library
 
             if (nodes.Remove(node))
             {
-                if (nodes.Count > 0 && nodes[0].Scene.isRoot == false)
-                    nodes[0].Scene.isRoot = true;
                 return true;
             }
-
-            return false;
+            else return false;
         }
         public void SetRoot(IScene scene)
         {
             var node = GetNodeOf(scene);
 
-            nodes[0].Scene.isRoot = false;
-
             nodes[nodes.IndexOf(node)] = nodes[0];
             nodes[0] = node;
-
-            nodes[0].Scene.isRoot = true;
         }
 
         public IScene[] GetAllScenes()
         {
             var scenes = from node in nodes
                          select node.Scene;
+
             return scenes.ToArray();
         }
 
         public bool AddLink(IScene from, string text, IScene to)
         {
-            if (text == null)
-                throw new ArgumentNullException("text");
-
             var source = GetNodeOf(from);
             var destination = GetNodeOf(to);
 
@@ -109,9 +100,6 @@ namespace Library
         }
         public bool RemoveLink(IScene from, IScene to)
         {
-            if (to == null)
-                throw new ArgumentNullException("to");
-
             var source = GetNodeOf(from);
 
             return source.RemoveLink(to);
@@ -126,6 +114,7 @@ namespace Library
         {
             var result = from link in GetNodeOf(scene).Links
                          select link.Value.Scene;
+
             return result.ToArray();
         }
 

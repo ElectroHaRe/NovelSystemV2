@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace WFControlLibrary
 {
-    class Reserve
+    class CommandHistory
     {
         public class Command
         {
@@ -34,44 +34,44 @@ namespace WFControlLibrary
             }
         }
 
-        public Reserve(int capacity)
+        public CommandHistory(int capacity)
         {
             CommandList = new Dictionary<string, Command>(capacity);
-            story = new CircularStack<KeyValuePair<string, object[]>>(capacity);
+            history = new CircularStack<KeyValuePair<string, object[]>>(capacity);
             backup = new CircularStack<KeyValuePair<string, object[]>>(capacity);
         }
 
         private Dictionary<string, Command> CommandList;
-        private CircularStack<KeyValuePair<string, object[]>> story;
+        private CircularStack<KeyValuePair<string, object[]>> history;
         private CircularStack<KeyValuePair<string, object[]>> backup;
 
-        public Reserve AddCommand(Command command)
+        public CommandHistory AddCommand(Command command)
         {
             CommandList.Add(command.Name, command);
             return this;
         }
-        public Reserve AddCommand(string name, Action<object[]> undo, Action<object[]> redo)
+        public CommandHistory AddCommand(string name, Action<object[]> undo, Action<object[]> redo)
         {
             var temp = new Command(name, undo, redo);
             CommandList.Add(temp.Name, temp);
             return this;
         }
 
-        public Reserve Store(string commandName, params object[] args)
+        public CommandHistory Store(string commandName, params object[] args)
         {
             if (backup.Count > 0)
                 backup.Clear();
 
-            story.Push(new KeyValuePair<string, object[]>(commandName, args));
+            history.Push(new KeyValuePair<string, object[]>(commandName, args));
             return this;
         }
 
         public void Undo()
         {
-            if (story.Count == 0)
+            if (history.Count == 0)
                 return;
 
-            var storyItem = story.Pop();
+            var storyItem = history.Pop();
             CommandList[storyItem.Key].Undo(storyItem.Value);
             backup.Push(storyItem);
         }
@@ -82,7 +82,7 @@ namespace WFControlLibrary
 
             var storyItem = backup.Pop();
             CommandList[storyItem.Key].Redo(storyItem.Value);
-            story.Push(storyItem);
+            history.Push(storyItem);
         }
     }
 }
