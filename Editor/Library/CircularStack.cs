@@ -1,6 +1,6 @@
-﻿namespace WFControlLibrary
+﻿namespace Library
 {
-    class CircularStack<T>
+    public class CircularStack<T>
     {
         public CircularStack(int capacity) { items = new T[capacity]; }
 
@@ -39,6 +39,17 @@
             return temp;
         }
 
+        public T[] ToArray()
+        {
+            var array = new T[Count];
+
+            for (int i = 0; i < Count; i++)
+            {
+                array[i] = items[(head + i) % Capacity];
+            }
+
+            return array;
+        }
         public void Clear()
         {
             head = tail = Count = 0;

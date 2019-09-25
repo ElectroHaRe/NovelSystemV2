@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CircularStack.cs" />
     <Compile Include="IScene.cs" />
     <Compile Include="LinkedNode.cs" />
     <Compile Include="Script.cs" />

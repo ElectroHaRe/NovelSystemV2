@@ -13,12 +13,12 @@ B:\OtherProjects\NovelSystemV2\Editor\BaseWFControlNovelLibrary\obj\Debug\WFCont
 B:\OtherProjects\NovelSystemV2\Editor\WFControlLibrary\obj\Debug\WFControlLibrary.csprojAssemblyReference.cache
 B:\OtherProjects\NovelSystemV2\Editor\WFControlLibrary\obj\Debug\WFControlLibrary.csproj.GenerateResource.cache
 B:\OtherProjects\NovelSystemV2\Editor\WFControlLibrary\obj\Debug\WFControlLibrary.csproj.CoreCompileInputs.cache
-B:\OtherProjects\NovelSystemV2\Editor\WFControlLibrary\obj\Debug\BaseWFControlNovelLibrary.dll
-B:\OtherProjects\NovelSystemV2\Editor\WFControlLibrary\obj\Debug\BaseWFControlNovelLibrary.pdb
 B:\OtherProjects\NovelSystemV2\Editor\WFControlLibrary\obj\Debug\WFControlLibrary.FieldElement.resources
-B:\OtherProjects\NovelSystemV2\Editor\WFControlLibrary\bin\Debug\BaseWFControlNovelLibrary.dll
-B:\OtherProjects\NovelSystemV2\Editor\WFControlLibrary\bin\Debug\BaseWFControlNovelLibrary.pdb
 B:\OtherProjects\NovelSystemV2\Editor\WFControlLibrary\obj\Debug\WFControlLibrary.csproj.CopyComplete
 B:\OtherProjects\NovelSystemV2\Editor\WFControlLibrary\obj\Debug\WFControlLibrary.FieldOfTree.resources
 B:\OtherProjects\NovelSystemV2\Editor\WFControlLibrary\bin\Debug\Library.dll
 B:\OtherProjects\NovelSystemV2\Editor\WFControlLibrary\bin\Debug\Library.pdb
+B:\OtherProjects\NovelSystemV2\Editor\WFControlLibrary\bin\Debug\WFControlLibrary.dll
+B:\OtherProjects\NovelSystemV2\Editor\WFControlLibrary\bin\Debug\WFControlLibrary.pdb
+B:\OtherProjects\NovelSystemV2\Editor\WFControlLibrary\obj\Debug\WFControlLibrary.dll
+B:\OtherProjects\NovelSystemV2\Editor\WFControlLibrary\obj\Debug\WFControlLibrary.pdb
