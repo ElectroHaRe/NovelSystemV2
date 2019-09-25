@@ -13,7 +13,7 @@ namespace Library
             this.tree = tree;
             history = new CircularStack<IScene>(tree.Count);
 
-            position = tree.GetNodeOf(tree.Root);
+            position = tree.nodes[0];
         }
 
         private Tree tree;

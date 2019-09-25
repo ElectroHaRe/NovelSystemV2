@@ -22,7 +22,7 @@ namespace Library
                 return nodes[0].Scene;
             }
         }
-        private List<Node> nodes = new List<Node>();
+        internal List<Node> nodes = new List<Node>();
 
         public int Count => nodes.Count;
 

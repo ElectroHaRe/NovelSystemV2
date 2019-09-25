@@ -30,13 +30,13 @@ namespace Library
             Links.Add(text, node);
             return true;
         }
-        internal bool RemoveLink(IScene node)
+        internal bool RemoveLink(IScene scene)
         {
-            if (node == null)
+            if (scene == null)
                 throw new ArgumentNullException("node");
 
             var result = from pair in Links
-                         where pair.Value == node
+                         where pair.Value == scene
                          select pair.Key;
 
             var keys = result;
