@@ -4,7 +4,7 @@
     {
         public CircularStack(int capacity) { items = new T[capacity]; }
 
-        private int Capacity => items.Length;
+        public int Capacity => items.Length;
         public int Count { get; private set; } = 0;
 
         public bool isEmpty => Count == 0;
