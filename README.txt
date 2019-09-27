@@ -1,0 +1,1 @@
+It is an editor for creating visual stories.
