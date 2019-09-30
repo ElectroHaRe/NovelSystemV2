@@ -39,7 +39,6 @@ namespace WFControlLibrary
             InitializeComponent();
             _location = this.Location;
             _size = this.Size;
-            rootMarker = false;
         }
 
         public FieldElement(Point location) : this()

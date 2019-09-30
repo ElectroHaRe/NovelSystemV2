@@ -41,8 +41,7 @@
             this.makeRootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDialog = new System.Windows.Forms.OpenFileDialog();
-            this.undoButton = new System.Windows.Forms.Button();
-            this.redoButton = new System.Windows.Forms.Button();
+            this.rootLabel = new System.Windows.Forms.Label();
             this.fieldMenu.SuspendLayout();
             this.elementMenu.SuspendLayout();
             this.SuspendLayout();
@@ -95,33 +94,22 @@
             // 
             this.openDialog.FileName = "Image";
             // 
-            // undoButton
+            // rootLabel
             // 
-            this.undoButton.Location = new System.Drawing.Point(3, 3);
-            this.undoButton.Name = "undoButton";
-            this.undoButton.Size = new System.Drawing.Size(75, 23);
-            this.undoButton.TabIndex = 2;
-            this.undoButton.Text = "Undo";
-            this.undoButton.UseVisualStyleBackColor = true;
-            this.undoButton.Click += new System.EventHandler(this.UndoButton_Click);
-            // 
-            // redoButton
-            // 
-            this.redoButton.Location = new System.Drawing.Point(722, 3);
-            this.redoButton.Name = "redoButton";
-            this.redoButton.Size = new System.Drawing.Size(75, 23);
-            this.redoButton.TabIndex = 3;
-            this.redoButton.Text = "Redo";
-            this.redoButton.UseVisualStyleBackColor = true;
-            this.redoButton.Click += new System.EventHandler(this.RedoButton_Click);
+            this.rootLabel.AutoSize = true;
+            this.rootLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.rootLabel.Location = new System.Drawing.Point(0, 0);
+            this.rootLabel.Name = "rootLabel";
+            this.rootLabel.Size = new System.Drawing.Size(32, 15);
+            this.rootLabel.TabIndex = 2;
+            this.rootLabel.Text = "Root";
             // 
             // FieldOfTree
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.Controls.Add(this.redoButton);
-            this.Controls.Add(this.undoButton);
+            this.Controls.Add(this.rootLabel);
             this.Name = "FieldOfTree";
             this.Size = new System.Drawing.Size(800, 600);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.OnFieldRepaint);
@@ -131,6 +119,7 @@
             this.fieldMenu.ResumeLayout(false);
             this.elementMenu.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -143,6 +132,7 @@
         private System.Windows.Forms.ToolStripMenuItem makeRootToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openDialog;
+        private System.Windows.Forms.Label rootLabel;
 
         public event Action<IFieldElement> ElementCreated;
         public event Action<IFieldElement> ElementRemoved;
@@ -195,15 +185,31 @@
             Dragger.StopDrag();
         }
 
+        private void OnFocusChanged(IFieldElement lastFocus, IFieldElement currentFocus)
+        {
+            if (currentFocus != null)
+                DrawRectNearElement(this.CreateGraphics(), currentFocus);
+
+            if (lastFocus != null)
+            {
+                var rect = new Rectangle(lastFocus.ScaledLocation.X - 2, lastFocus.ScaledLocation.Y - 2,
+                    lastFocus.ScaledSize.Width + 4, lastFocus.ScaledSize.Height + 4);
+                Invalidate(rect);
+            }
+        }
+
         private void OnElementMouseDown(object sender, MouseEventArgs e)
         {
-            ChangeFocus(sender as FieldElement);
+            if (sender != Focus)
+            {
+                var lastFocus = Focus;
+                ChangeFocus(sender as FieldElement);
+                FocusChanged?.Invoke(lastFocus, Focus);
+            }
             if (e.Button == MouseButtons.Right)
                 elementMenu.Show(MousePosition);
             else if (e.Button == MouseButtons.Left)
-            {
                 StartDrag();
-            }
         }
         private void OnElementMouseUp(object sender, MouseEventArgs e)
         {
@@ -220,6 +226,7 @@
             SubscribeTo(temp);
             ElementCreated?.Invoke(temp);
         }
+
         private void OnChangeImage(object sender, EventArgs e)
         {
             var last_image = Focus.Image;
@@ -254,6 +261,7 @@
         private void OnDragHandler(Control[] items)
         {
             OnDrag?.Invoke(items);
+            UpdateRootMarker();
             Invalidate();
         }
 
@@ -290,10 +298,10 @@
         Arrow highlightArrow = new Arrow(new Pen(Color.Orange, 2), new Pen(Color.Orange, 2));
         Pen rectHighlighter = new Pen(Color.Orange, 1);
 
-        private void DrawRectNearControl(Graphics g, IFieldElement control)
+        private void DrawRectNearElement(Graphics g, IFieldElement element)
         {
-            var pos = control.ScaledLocation;
-            var size = control.ScaledSize;
+            var pos = element.ScaledLocation;
+            var size = element.ScaledSize;
             var rect = new Rectangle(pos.X - 2, pos.Y - 2, size.Width + 3, size.Height + 3);
             g.DrawRectangle(rectHighlighter, rect);
         }
@@ -302,17 +310,18 @@
         {
             if (Focus != null)
             {
-                DrawRectNearControl(e.Graphics, Focus);
+                DrawRectNearElement(e.Graphics, Focus);
             }
+
             foreach (IFieldElement source in tree.GetAllScenes())
             {
                 if (HighlightElements.Contains(source))
-                    DrawRectNearControl(e.Graphics, source);
+                    DrawRectNearElement(e.Graphics, source);
 
                 foreach (IFieldElement destination in tree.GetAllLinks(source))
                 {
                     if (HighlightElements.Contains(destination))
-                        DrawRectNearControl(e.Graphics, destination);
+                        DrawRectNearElement(e.Graphics, destination);
 
                     Arrow current_arrow = HighlightElements.Contains(source) == HighlightElements.Contains(destination) == true ? highlightArrow : arrow;
 
@@ -321,8 +330,5 @@
                 }
             }
         }
-
-        private Button undoButton;
-        private Button redoButton;
     }
 }
