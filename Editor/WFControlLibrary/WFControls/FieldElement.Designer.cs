@@ -18,15 +18,14 @@
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.textBox = new System.Windows.Forms.TextBox();
             this.noImageLabel = new System.Windows.Forms.Label();
-            this.rootLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox
             // 
-            this.pictureBox.Location = new Point(0, 0);
+            this.pictureBox.Location = new System.Drawing.Point(0, 0);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new Size(250, 80);
+            this.pictureBox.Size = new System.Drawing.Size(250, 80);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
@@ -35,47 +34,35 @@
             // 
             // textBox
             // 
-            this.textBox.Location = new Point(-1, 80);
+            this.textBox.Location = new System.Drawing.Point(-1, 80);
             this.textBox.Multiline = true;
             this.textBox.Name = "textBox";
             this.textBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox.Size = new Size(251, 80);
+            this.textBox.Size = new System.Drawing.Size(251, 80);
             this.textBox.TabIndex = 1;
             // 
             // noImageLabel
             // 
             this.noImageLabel.AutoEllipsis = true;
-            this.noImageLabel.Location = new Point(98, 33);
+            this.noImageLabel.Location = new System.Drawing.Point(98, 33);
             this.noImageLabel.Name = "noImageLabel";
-            this.noImageLabel.Size = new Size(53, 13);
+            this.noImageLabel.Size = new System.Drawing.Size(53, 13);
             this.noImageLabel.TabIndex = 2;
             this.noImageLabel.Text = "No Image";
             this.noImageLabel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LabelMouseDown);
             this.noImageLabel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LabelMouseUp);
             // 
-            // rootLabel
-            // 
-            this.rootLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.rootLabel.Location = new Point(-1, -1);
-            this.rootLabel.Name = "rootLabel";
-            this.rootLabel.Size = new Size(32, 17);
-            this.rootLabel.TabIndex = 3;
-            this.rootLabel.Text = "Root";
-            this.rootLabel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LabelMouseDown);
-            this.rootLabel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LabelMouseUp);
-            // 
             // FieldElement
             // 
-            this.AutoScaleDimensions = new SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Controls.Add(this.rootLabel);
             this.Controls.Add(this.noImageLabel);
             this.Controls.Add(this.textBox);
             this.Controls.Add(this.pictureBox);
             this.DoubleBuffered = true;
             this.Name = "FieldElement";
-            this.Size = new Size(250, 160);
+            this.Size = new System.Drawing.Size(250, 160);
             this.SizeChanged += new System.EventHandler(this.OnSizeChanged);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
@@ -88,12 +75,11 @@
         private System.ComponentModel.IContainer components = null;
 
         private Label noImageLabel;
-        private Label rootLabel;
         private PictureBox pictureBox;
         private TextBox textBox;
 
-        private const int masLabelWidth = 53;
-        public const int maxLabelHeight = 13;
+        private const int maxWidth = 53;
+        public const int maxHeight = 13;
 
         public new event EventHandler TextChanged
         {
@@ -124,8 +110,6 @@
 
         public new string Text { get => textBox.Text; set => (this as IScene).Text = value; }
         public Image Image { get => pictureBox.Image; set => (this as IScene).Image = value; }
-
-        public bool rootMarker { get => rootLabel.Visible && rootLabel.Enabled; set => rootLabel.Visible = rootLabel.Enabled = value; }
 
         protected override void Dispose(bool disposing)
         {
@@ -161,13 +145,11 @@
             pictureBox.Left = 0; pictureBox.Top = 0;
             textBox.Left = -1; textBox.Top = pictureBox.Height + pictureBox.Top;
 
-            rootLabel.Left = -1; rootLabel.Top = -1;
-
-            noImageLabel.Width = Width < masLabelWidth ? Width : masLabelWidth;
+            noImageLabel.Width = Width < maxWidth ? Width : maxWidth;
 
             if (Image == null)
             {
-                if (Height / 2 < maxLabelHeight)
+                if (Height / 2 < maxHeight)
                     noImageLabel.Enabled = noImageLabel.Visible = false;
                 else if (!noImageLabel.Enabled && !noImageLabel.Visible)
                     noImageLabel.Enabled = noImageLabel.Visible = true;

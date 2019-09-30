@@ -16,6 +16,8 @@ namespace WFControlLibrary
             UpdateWorldParams();
             OnStopDrag += OnStopDragHandler;
             ConfigureReserve();
+            UpdateRootMarker();
+            FocusChanged += OnFocusChanged;
         }
 
         private Tree tree = new Tree();
@@ -42,6 +44,8 @@ namespace WFControlLibrary
                     foreach (IFieldElement node in tree.GetAllScenes())
                     {
                         node.ChangeScale(scaleFactor);
+                        if (node == Root)
+                            UpdateRootMarker();
                     }
                     Invalidate();
                     ScaleFactorChanged?.Invoke(lastFactor, scaleFactor);
@@ -91,6 +95,17 @@ namespace WFControlLibrary
         }
         #endregion
 
+        private void UpdateRootMarker()
+        {
+            if (Root != null)
+            {
+                rootLabel.Visible = rootLabel.Enabled = true;
+                rootLabel.Location = Root.ScaledLocation;
+            }
+            else
+                rootLabel.Visible = rootLabel.Enabled = false;
+        }
+
         private FieldOfTree CreateElement()
         {
             IFieldElement temp;
@@ -107,10 +122,10 @@ namespace WFControlLibrary
         }
         private FieldOfTree AddElement(IFieldElement item)
         {
-            if (tree.Count == 0 && item is FieldElement)
-                (item as FieldElement).rootMarker = true;
             Controls.Add(item as Control);
             tree.Add(item);
+            UpdateRootMarker();
+            FocusChanged(Focus, item);
             Focus = item;
             return this;
         }
@@ -124,14 +139,12 @@ namespace WFControlLibrary
             if (tree.Remove(item) == false)
                 return false;
 
-            if (tree.Count > 0 && Root is FieldElement)
-                (Root as FieldElement).rootMarker = true;
-
             Controls.Remove(item as Control);
 
             if (Focus == item)
             {
                 Focus = null;
+                UpdateRootMarker();
                 Invalidate();
             }
 
@@ -152,11 +165,8 @@ namespace WFControlLibrary
         }
         private void SetRoot(IFieldElement item)
         {
-            if (tree.Root is FieldElement)
-                (tree.Root as FieldElement).rootMarker = false;
             tree.SetRoot(item);
-            if (tree.Root is FieldElement)
-                (tree.Root as FieldElement).rootMarker = true;
+            UpdateRootMarker();
         }
         public IFieldElement[] GetElementsBy(string text)
         {
@@ -275,16 +285,6 @@ namespace WFControlLibrary
         public void RemoveAllHighlights()
         {
             HighlightElements = new List<IFieldElement>();
-        }
-
-        private void UndoButton_Click(object sender, EventArgs e)
-        {
-            history.Undo();
-        }
-
-        private void RedoButton_Click(object sender, EventArgs e)
-        {
-            history.Redo();
         }
     }
 }
