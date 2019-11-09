@@ -10,3 +10,8 @@ B:\OtherProjects\NovelSystemV2\Editor\Library\bin\Debug\Library.dll
 B:\OtherProjects\NovelSystemV2\Editor\Library\bin\Debug\Library.pdb
 B:\OtherProjects\NovelSystemV2\Editor\Library\obj\Debug\Library.dll
 B:\OtherProjects\NovelSystemV2\Editor\Library\obj\Debug\Library.pdb
+C:\Users\sanle\Source\Repos\ElectroHaRe\NovelSystemV2\Editor\Library\bin\Debug\Library.dll
+C:\Users\sanle\Source\Repos\ElectroHaRe\NovelSystemV2\Editor\Library\bin\Debug\Library.pdb
+C:\Users\sanle\Source\Repos\ElectroHaRe\NovelSystemV2\Editor\Library\obj\Debug\Library.csprojAssemblyReference.cache
+C:\Users\sanle\Source\Repos\ElectroHaRe\NovelSystemV2\Editor\Library\obj\Debug\Library.dll
+C:\Users\sanle\Source\Repos\ElectroHaRe\NovelSystemV2\Editor\Library\obj\Debug\Library.pdb
